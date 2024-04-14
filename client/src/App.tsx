@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Loader from './components/Loader'
 import Header from './components/Header'
 
@@ -26,7 +26,7 @@ const TransactionManagement = lazy(
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <Router>
       <Header />
       <Suspense fallback={<Loader />}>
         <Routes>
@@ -57,7 +57,7 @@ const App = () => {
           />
         </Routes>
       </Suspense>
-    </BrowserRouter>
+    </Router>
   )
 }
 

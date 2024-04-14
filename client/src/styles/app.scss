@@ -10,6 +10,10 @@
   box-sizing: border-box;
 }
 
+body {
+  user-select: none;
+}
+
 a {
   text-decoration: none;
   color: black;
@@ -25,13 +29,57 @@ a {
   color: rgb(0, 195, 0);
 }
 
+$color1: white;
+$color2: rgb(46, 46, 46);
+$color3: rgb(0, 104, 136);
+
 @import 'admin/mixin';
+
+@import 'home';
 
 @import 'admin/dashboard';
 @import 'admin/products';
 @import 'admin/chart';
 @import 'admin/dashboardapp';
 @import 'admin/mediaquery';
+
+.header {
+  @include flex(row, flex-end, stretch, 1.2rem);
+  padding: 1rem;
+
+  a {
+    color: $color2;
+    letter-spacing: 2px;
+    font-size: 1.2rem;
+
+    &:hover {
+      color: $color3;
+    }
+  }
+
+  button {
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    background-color: transparent;
+    &:hover {
+      color: $color3;
+    }
+  }
+
+  dialog {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    widht: 100px;
+    position: absolute;
+    left: calc(100% - 100px);
+    top: 8%;
+    > div {
+      @include flex(column, flex-start, center, 0.25rem);
+    }
+  }
+}
 
 .admin-container {
   @include grid(1fr 4fr, 2rem);

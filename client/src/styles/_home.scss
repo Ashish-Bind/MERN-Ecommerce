@@ -1,0 +1,50 @@
+.home {
+  padding: 2rem 5%;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 4rem);
+  width: 100%;
+
+  > section {
+    height: 18.75rem;
+    width: 100%;
+    margin: auto;
+    background: url('../assets/cover.jpg') no-repeat center / cover;
+  }
+
+  > h1 {
+    @include heading(0.5px);
+    margin-top: 3rem;
+    @include flex(row, space-between, center);
+  }
+
+  .find-more {
+    font-size: 1rem;
+  }
+
+  > main {
+    width: 100%;
+    flex: 1;
+    gap: 1rem;
+    display: flex;
+    overflow-x: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.product-card {
+  width: 18.75rem;
+  height: 25rem;
+  padding: 1rem;
+  flex: none;
+  @include flex(column, flex-start, center, 4px);
+
+  > img {
+    @include square(calc(18.75rem - 3rem));
+    object-fit: cover;
+    margin: 1rem;
+  }
+}
