@@ -1,0 +1,45 @@
+.shipping {
+  @include flex(row, center, center, 1rem);
+  position: relative;
+
+  .back {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    button {
+      padding: 1rem;
+      border-radius: 100%;
+      border: none;
+    }
+  }
+
+  .shipping-details {
+    text-align: center;
+    width: 50%;
+    height: calc(100vh - 4rem);
+    > form {
+      @include flex(column, center, center, 0.8rem);
+
+      input,
+      select {
+        font-family: Poppins, sans-serif;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        font-size: 1rem;
+        width: 100%;
+      }
+
+      button {
+        font-family: Poppins, sans-serif;
+        padding: 0.6rem 1.2rem;
+        width: 100%;
+        font-size: 1rem;
+        background-color: $color3;
+        color: #fff;
+        border-radius: 5px;
+        border: none;
+      }
+    }
+  }
+}

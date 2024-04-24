@@ -27,7 +27,7 @@
     flex: 1;
     gap: 1rem;
     display: flex;
-    overflow-x: auto;
+    // overflow-x: auto;
 
     &::-webkit-scrollbar {
       display: none;
@@ -37,14 +37,49 @@
 
 .product-card {
   width: 18.75rem;
-  height: 25rem;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
   padding: 1rem;
   flex: none;
   @include flex(column, flex-start, center, 4px);
+  position: absolute;
+  &:hover {
+    > div {
+      opacity: 100%;
+    }
+  }
 
   > img {
-    @include square(calc(18.75rem - 3rem));
-    object-fit: cover;
+    @include square(calc(18.75rem - 5rem));
+    object-fit: contain;
     margin: 1rem;
+  }
+
+  h1 {
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  > div {
+    @include square(100%);
+    @include flex(column, center, center, 4px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+
+    > button {
+      @include flex(column, center, center, 4px);
+      padding: 1rem;
+      background-color: $color3;
+      color: #fff;
+      border: none;
+      border-radius: 100%;
+      &:hover {
+        rotate: 20deg;
+      }
+      transition: all ease-in 0.3s;
+    }
   }
 }

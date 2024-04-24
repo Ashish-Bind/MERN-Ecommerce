@@ -1,5 +1,4 @@
-import React from 'react'
-import { FaPlus } from 'react-icons/fa'
+import { FaBars, FaPlus } from 'react-icons/fa'
 
 interface ProductCardProps {
   id: string
@@ -26,6 +25,7 @@ const ProductCard = ({
 
       <div className="overlay">
         <button onClick={cartHandler}>{<FaPlus />}</button>
+        <button onClick={cartHandler}>{<FaBars />}</button>
       </div>
     </div>
   )
