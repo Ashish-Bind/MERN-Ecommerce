@@ -7,6 +7,7 @@ const Home = lazy(() => import('./pages/Home'))
 const Search = lazy(() => import('./pages/Search'))
 const Cart = lazy(() => import('./pages/Cart'))
 const Shipping = lazy(() => import('./pages/Shipping'))
+const Login = lazy(() => import('./pages/Login'))
 
 const Dashboard = lazy(() => import('./pages/admin/dashboard'))
 const Products = lazy(() => import('./pages/admin/products'))
@@ -35,6 +36,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/login" element={<Login />} />
 
           {/* Protected Routes */}
           <Route path="/shipping" element={<Shipping />} />

@@ -6,12 +6,14 @@ import {
   FaSignOutAlt,
   FaUser,
 } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
-const user = { _id: '10', role: 'ADMIN' }
+const user = { _id: '', role: '' }
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
+
+  const navigate = useNavigate()
 
   const logoutHandler = () => {}
 
@@ -44,7 +46,7 @@ const Header = () => {
           </dialog>
         </>
       ) : (
-        <button>
+        <button onClick={() => navigate('/login')}>
           <FaSignInAlt />
         </button>
       )}

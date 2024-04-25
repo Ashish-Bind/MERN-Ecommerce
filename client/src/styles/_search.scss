@@ -1,0 +1,55 @@
+.search {
+  @include flex(row, flex-start, stretch);
+  height: calc(100vh - 6.5vh);
+
+  > aside {
+    min-width: 20rem;
+    height: 100%;
+    padding: 2rem;
+    @include flex(column, flex-start, stretch, 1rem);
+    border-right: 1px solid rgba($color: #000000, $alpha: 0.2);
+
+    > h1 {
+      @include heading;
+      font-weight: bold;
+    }
+
+    > div {
+      @include flex(column, flex-start, stretch, 10px);
+    }
+
+    select {
+      font-family: inherit;
+      padding: 10px;
+      border: 1px solid rgba($color: #000000, $alpha: 0.15);
+      border-radius: 5px;
+    }
+  }
+
+  > main {
+    width: 100%;
+    padding: 2rem;
+    @include flex(column, flex-start, stretch, 1rem);
+
+    input {
+      width: 60%;
+      font-family: inherit;
+      padding: 10px;
+      border-radius: 100px;
+      border: 1px solid rgba($color: #000000, $alpha: 0.15);
+    }
+
+    > h1 {
+      @include heading;
+      font-weight: bold;
+    }
+
+    .pagination {
+      @include flex(row, center, center, 10px);
+
+      > button {
+        padding: 5px;
+      }
+    }
+  }
+}
