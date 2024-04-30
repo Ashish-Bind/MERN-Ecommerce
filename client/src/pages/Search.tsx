@@ -9,8 +9,10 @@ const Search = () => {
   const [category, setCategory] = useState<string>('')
   const [page, setPage] = useState<number>(1)
 
-  const isNext = true
-  const isPrev = true
+  const addtoCartHandler = () => {}
+
+  const isPrev = page > 1
+  const isNext = page < 3
 
   return (
     <div className="search">
@@ -70,7 +72,7 @@ const Search = () => {
 
         <div className="product-list">
           <ProductCard
-            cartHandler={() => {}}
+            cartHandler={addtoCartHandler}
             id="1"
             img="https://m.media-amazon.com/images/I/71d7rfSl0wL._AC_UY327_FMwebp_QL65_.jpg"
             price={65000}
@@ -80,11 +82,19 @@ const Search = () => {
         </div>
 
         <div className="pagination">
-          <button disabled={isPrev} onClick={() => setPage((prev) => prev - 1)}>
+          <button
+            disabled={isPrev}
+            onClick={() => setPage((prev) => prev - 1)}
+            title="previous"
+          >
             <FaArrowLeft />
           </button>
           <span>{page} out of 3</span>
-          <button disabled={isNext} onClick={() => setPage((prev) => prev + 1)}>
+          <button
+            disabled={isNext}
+            onClick={() => setPage((prev) => prev + 1)}
+            title="next"
+          >
             <FaArrowRight />
           </button>
         </div>
