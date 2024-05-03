@@ -5,3 +5,22 @@ export type Controller = (
   res: Response,
   next: NextFunction
 ) => Promise<void | Response<any, Record<string, any>>>
+
+export type FilterOptions = {
+  search?: string
+  category?: string
+  price?: number
+  sort?: string
+  page?: number
+}
+
+export interface BaseQuery {
+  name?: {
+    $regex: string
+    $options: string
+  }
+  price?: {
+    $lte: number
+  }
+  category?: string
+}
