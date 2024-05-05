@@ -4,6 +4,8 @@ import { trycatch } from '../middlewares/error.js'
 import { Product } from '../models/product.js'
 import { rm } from 'fs'
 import { BaseQuery, FilterOptions } from '../types.js'
+import { myCache } from '../app.js'
+import { invalidateCache } from '../utils/feature.js'
 
 export const newProduct = trycatch(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -28,6 +30,8 @@ export const newProduct = trycatch(
       photo: photo?.path,
     })
 
+    invalidateCache({ product: true })
+
     res
       .status(201)
       .json({ success: true, message: 'Product created successfully' })
@@ -44,7 +48,7 @@ export const getAllProducts = trycatch(
 
     const pageNumber = Number(page) || 1
 
-    const limit = Number(process.env.PRODUCT_LIMIT) || 2
+    const limit = Number(process.env.PRODUCT_LIMIT) || 8
 
     const skip = (pageNumber - 1) * limit
 
@@ -77,17 +81,29 @@ export const getAllProducts = trycatch(
 
 export const getLatestProducts = trycatch(
   async (req: Request, res: Response, next: NextFunction) => {
-    const latestProducts = await Product.find({})
-      .sort({ createdAt: -1 })
-      .limit(10)
+    let products
 
-    res.status(201).json({ success: true, latestProducts })
+    if (!myCache.has(`latest-products`)) {
+      products = await Product.find({}).sort({ createdAt: -1 }).limit(10)
+      myCache.set(`latest-products`, JSON.stringify(products))
+    } else {
+      products = JSON.parse(myCache.get(`latest-products`)!)
+    }
+
+    res.status(201).json({ success: true, products })
   }
 )
 
 export const getAllCategories = trycatch(
   async (req: Request, res: Response, next: NextFunction) => {
-    const categories = await Product.distinct('category')
+    let categories
+
+    if (!myCache.has(`categories`)) {
+      categories = await Product.distinct('category')
+      myCache.set(`categories`, JSON.stringify(categories))
+    } else {
+      categories = JSON.parse(myCache.get(`categories`)!)
+    }
 
     res.status(201).json({ success: true, categories })
   }
@@ -97,7 +113,14 @@ export const singleProduct = trycatch(
   async (req: Request, res: Response, next: NextFunction) => {
     const { productId } = req.params
 
-    const product = await Product.findById(productId)
+    let product
+
+    if (!myCache.has(`product-${productId}`)) {
+      product = await Product.findById(productId)
+      myCache.set(`product-${productId}`, JSON.stringify(product))
+    } else {
+      product = JSON.parse(myCache.get(`product-${productId}`)!)
+    }
 
     res.status(201).json({ success: true, product })
   }
@@ -129,6 +152,8 @@ export const updateProduct = trycatch(
 
     await product.save()
 
+    await invalidateCache({ product: true })
+
     res
       .status(201)
       .json({ success: true, message: 'Product updated successfully' })
@@ -149,9 +174,26 @@ export const deleteProduct = trycatch(
 
     await product.deleteOne()
 
+    await invalidateCache({ product: true })
+
     res.status(201).json({
       success: true,
       message: `Product deleted having id ${productId}`,
     })
+  }
+)
+
+export const getAdminProducts = trycatch(
+  async (req: Request, res: Response, next: NextFunction) => {
+    let products
+
+    if (!myCache.has(`all-products`)) {
+      products = await Product.find({})
+      myCache.set(`all-products`, JSON.stringify(products))
+    } else {
+      products = JSON.parse(myCache.get(`all-products`)!)
+    }
+
+    res.status(201).json({ success: true, products })
   }
 )
