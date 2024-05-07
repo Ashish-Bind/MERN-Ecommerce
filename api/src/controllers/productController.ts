@@ -30,7 +30,7 @@ export const newProduct = trycatch(
       photo: photo?.path,
     })
 
-    invalidateCache({ product: true })
+    invalidateCache({ product: true, admin: true })
 
     res
       .status(201)
@@ -117,6 +117,9 @@ export const singleProduct = trycatch(
 
     if (!myCache.has(`product-${productId}`)) {
       product = await Product.findById(productId)
+
+      if (!product) return next(new ErrorHandler('Invalid Product Id', 400))
+
       myCache.set(`product-${productId}`, JSON.stringify(product))
     } else {
       product = JSON.parse(myCache.get(`product-${productId}`)!)
@@ -152,7 +155,11 @@ export const updateProduct = trycatch(
 
     await product.save()
 
-    await invalidateCache({ product: true })
+    invalidateCache({
+      product: true,
+      productId: [productId],
+      admin: true,
+    })
 
     res
       .status(201)
@@ -174,7 +181,11 @@ export const deleteProduct = trycatch(
 
     await product.deleteOne()
 
-    await invalidateCache({ product: true })
+    invalidateCache({
+      product: true,
+      productId: [productId],
+      admin: true,
+    })
 
     res.status(201).json({
       success: true,

@@ -30,6 +30,8 @@ export type InvalidateCache = {
   admin?: boolean
   order?: boolean
   userId?: string
+  orderId?: string[]
+  productId?: string[]
 }
 
 export type ShippingInfo = {

@@ -1,10 +1,10 @@
-import { Request, Response, NextFunction } from 'express'
+import { NextFunction, Request, Response } from 'express'
+import { myCache } from '../app.js'
 import { trycatch } from '../middlewares/error.js'
-import { OrderRequestBody } from '../types.js'
 import { Order } from '../models/orders.js'
+import { OrderRequestBody } from '../types.js'
 import { invalidateCache, reduceStock } from '../utils/feature.js'
 import ErrorHandler from '../utils/utility-class.js'
-import { myCache } from '../app.js'
 
 export const newOrder = trycatch(
   async (
@@ -22,17 +22,6 @@ export const newOrder = trycatch(
       total,
       user,
     } = req.body
-
-    console.log({
-      shippingInfo,
-      discount,
-      orderItems,
-      shippingCharges,
-      subtotal,
-      tax,
-      total,
-      user,
-    })
 
     if (
       !shippingInfo ??
@@ -60,7 +49,15 @@ export const newOrder = trycatch(
 
     reduceStock(orderItems)
 
-    invalidateCache({ product: true, admin: true, order: true, userId: user })
+    const products = orderItems.map((item) => item.productId)
+
+    invalidateCache({
+      product: true,
+      admin: true,
+      order: true,
+      userId: user,
+      productId: products,
+    })
 
     res.status(201).json({
       success: true,
@@ -156,11 +153,12 @@ export const updateStatus = trycatch(
 
     await order.save()
 
-    await invalidateCache({
+    invalidateCache({
       product: true,
       admin: true,
       order: true,
       userId: order.user!,
+      orderId: [String(order._id)],
     })
 
     res.status(201).json({
@@ -180,11 +178,12 @@ export const deleteOrder = trycatch(
 
     await order.deleteOne()
 
-    await invalidateCache({
+    invalidateCache({
       product: true,
       admin: true,
       order: true,
       userId: order.user!,
+      orderId: [String(order._id)],
     })
 
     res.status(201).json({
