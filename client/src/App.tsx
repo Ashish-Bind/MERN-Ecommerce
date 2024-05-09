@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
 import Loader from './components/Loader'
 import Header from './components/Header'
 
@@ -32,6 +33,7 @@ const TransactionManagement = lazy(
 const App = () => {
   return (
     <Router>
+      <Toaster position="top-center" />
       <Header />
       <Suspense fallback={<Loader />}>
         <Routes>
