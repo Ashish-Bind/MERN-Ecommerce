@@ -26,7 +26,7 @@ export const newUser = trycatch(
       dob: new Date(dob),
     })
 
-    res.status(201).json({ success: true, message: 'User created' })
+    res.status(201).json({ success: true, message: `Welcome, ${name}` })
   }
 )
 

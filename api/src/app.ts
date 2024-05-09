@@ -1,6 +1,7 @@
 import { config } from 'dotenv'
 import express, { urlencoded } from 'express'
 import morgan from 'morgan'
+import cors from 'cors'
 import NodeCache from 'node-cache'
 import { errorMiddleware } from './middlewares/error.js'
 import orderRoute from './routes/orderRoute.js'
@@ -24,6 +25,13 @@ export const myCache = new NodeCache()
 
 connectDB({ url: mongoURI })
 
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    credentials: true,
+  })
+)
 app.use(urlencoded({ extended: true }))
 app.use(express.json())
 app.use(morgan('dev'))
