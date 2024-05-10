@@ -48,7 +48,7 @@ export const getAllProducts = trycatch(
 
     const pageNumber = Number(page) || 1
 
-    const limit = Number(process.env.PRODUCT_LIMIT) || 8
+    const limit = Number(process.env.PRODUCT_LIMIT) || 6
 
     const skip = (pageNumber - 1) * limit
 
@@ -84,7 +84,7 @@ export const getLatestProducts = trycatch(
     let products
 
     if (!myCache.has(`latest-products`)) {
-      products = await Product.find({}).sort({ createdAt: -1 }).limit(10)
+      products = await Product.find({}).sort({ createdAt: -1 }).limit(5)
       myCache.set(`latest-products`, JSON.stringify(products))
     } else {
       products = JSON.parse(myCache.get(`latest-products`)!)
