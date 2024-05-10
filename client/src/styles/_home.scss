@@ -2,7 +2,7 @@
   padding: 2rem 5%;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 4rem);
+
   width: 100%;
 
   > section {
@@ -27,7 +27,7 @@
     flex: 1;
     gap: 1rem;
     display: flex;
-    // overflow-x: auto;
+    overflow-x: auto;
 
     &::-webkit-scrollbar {
       display: none;
@@ -37,6 +37,8 @@
 
 .product-card {
   width: 18.75rem;
+  height: 20rem;
+  box-sizing: border-box;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 5px;
   padding: 1rem;
@@ -50,8 +52,8 @@
   }
 
   > img {
-    @include square(calc(18.75rem - 5rem));
-    object-fit: contain;
+    @include square(calc(18.75rem - 7rem));
+    object-fit: cover;
     margin: 1rem;
   }
 

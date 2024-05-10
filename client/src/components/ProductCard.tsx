@@ -1,4 +1,5 @@
 import { FaBars, FaPlus } from 'react-icons/fa'
+import { server } from '../redux/store'
 
 interface ProductCardProps {
   id: string
@@ -19,9 +20,9 @@ const ProductCard = ({
 }: ProductCardProps) => {
   return (
     <div className="product-card">
-      <img src={`${img}`} alt={name} />
+      <img src={`${server}${img}`} alt={name} />
       <h1>{name}</h1>
-      <p>{price}</p>
+      <p>₹{price}</p>
 
       <div className="overlay">
         <button onClick={cartHandler}>{<FaPlus />}</button>

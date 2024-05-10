@@ -7,15 +7,24 @@ import {
   FaUser,
 } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
+import { User } from '../types'
+import { signOut } from 'firebase/auth'
+import { auth } from '../firebase.config'
+import toast from 'react-hot-toast'
 
-const user = { _id: '', role: '' }
-
-const Header = () => {
+const Header = ({ user }: { user: User | null }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const navigate = useNavigate()
 
-  const logoutHandler = () => {}
+  const logoutHandler = async () => {
+    try {
+      await signOut(auth)
+      toast.success('Logged Out')
+    } catch (error) {
+      toast.error('Cannot log out')
+    }
+  }
 
   return (
     <nav className="header">
@@ -31,11 +40,11 @@ const Header = () => {
       {user?._id ? (
         <>
           <button onClick={() => setIsOpen((prev) => !prev)}>
-            <FaUser />
+            <img src={user.photo} className="profile-img" title={user.name} />
           </button>
           <dialog open={isOpen}>
             <div>
-              {user.role === 'ADMIN' && (
+              {user.role === 'admin' && (
                 <Link to={'/admin/dashboard'}>Admin</Link>
               )}
               <Link to={'/orders'}>Orders</Link>
