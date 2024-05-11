@@ -10,7 +10,7 @@ import {
 
 const router = express.Router()
 
-router.get('/order', createPaymentIntent)
+router.post('/order', createPaymentIntent)
 router.post('/coupon/new', adminOnly, newCoupon)
 router.get('/discount', applyDiscount)
 router.get('/coupon/all', adminOnly, allCoupon)

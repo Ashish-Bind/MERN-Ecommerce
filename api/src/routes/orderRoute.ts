@@ -15,6 +15,10 @@ router.post('/new', newOrder)
 router.get('/my-orders', myOrders)
 router.get('/all', adminOnly, allOrders)
 
-router.route('/:id').get(singleOrder).patch(updateStatus).delete(deleteOrder)
+router
+  .route('/:id')
+  .get(adminOnly, singleOrder)
+  .patch(adminOnly, updateStatus)
+  .delete(adminOnly, deleteOrder)
 
 export default router
