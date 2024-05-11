@@ -5,8 +5,6 @@ import ProductCard from '../components/ProductCard'
 import { useLatestProductsQuery } from '../redux/api/product'
 
 const Home = () => {
-  const addToCart = () => {}
-
   const { data, isLoading, isError } = useLatestProductsQuery('')
 
   if (isError) return toast.error('Cannot fetch latest products')
@@ -24,14 +22,14 @@ const Home = () => {
         {isLoading ? (
           <Skeleton />
         ) : (
-          data?.products.map((item) => (
+          data?.products.map((i) => (
             <ProductCard
-              id={item._id}
-              name={item.name}
-              price={item.price}
-              stock={item.stock}
-              cartHandler={addToCart}
-              img={item.photo}
+              productId={i._id}
+              key={i._id}
+              photo={i.photo}
+              name={i.name}
+              price={i.price}
+              stock={i.stock}
             />
           ))
         )}

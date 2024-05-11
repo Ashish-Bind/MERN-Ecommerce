@@ -1,7 +1,12 @@
-import React, { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import TableHOC from '../components/admin/TableHOC'
 import { Column } from 'react-table'
-import { Link } from 'react-router-dom'
+import { ErrorResponse, Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { UserReducerInitialState } from '../types'
+import { useOrderWithIdQuery } from '../redux/api/order'
+import toast from 'react-hot-toast'
+import { Skeleton } from '../components/Loader'
 
 type DataType = {
   _id: string
@@ -22,16 +27,13 @@ const column: Column<DataType>[] = [
 ]
 
 const Orders = () => {
-  const [row] = useState<DataType[]>([
-    {
-      _id: '1',
-      amount: 5,
-      quantity: 12,
-      discount: 500,
-      status: <span>Processing</span>,
-      action: <Link to={`/order/1`}>View</Link>,
-    },
-  ])
+  const { user } = useSelector(
+    (state: { userReducer: UserReducerInitialState }) => state.userReducer
+  )
+  const { data, isError, isLoading, error } = useOrderWithIdQuery(
+    user?._id as string
+  )
+  const [row, setRows] = useState<DataType[]>([])
 
   const table = TableHOC<DataType>(
     column,
@@ -40,10 +42,45 @@ const Orders = () => {
     'Orders'
   )()
 
+  if (isError) toast.error((error as ErrorResponse).data.message)
+
+  useEffect(() => {
+    if (data) {
+      setRows(
+        data.orders.map((i) => ({
+          _id: i._id,
+          amount: i.total,
+          discount: i.discount,
+          status: (
+            <span
+              className={
+                i.status === 'Processing'
+                  ? 'red'
+                  : i.status === 'Shipped'
+                  ? 'green'
+                  : 'purple'
+              }
+            >
+              {i.status}
+            </span>
+          ),
+          action: <Link to={`/admin/transaction/${i._id}`}>Manage</Link>,
+          quantity: i.orderItems.length,
+        }))
+      )
+    }
+  }, [data])
+
   return (
     <div className="container">
       <h1>My Orders</h1>
-      {table}
+      {isLoading ? (
+        <Skeleton />
+      ) : (data?.orders.length as number) < 1 ? (
+        'No Orders'
+      ) : (
+        table
+      )}
     </div>
   )
 }

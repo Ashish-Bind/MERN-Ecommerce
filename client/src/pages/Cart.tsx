@@ -1,34 +1,56 @@
 import { useEffect, useState } from 'react'
 import CartItem from '../components/CartItem'
-import { Navigate, useNavigate } from 'react-router-dom'
-
-const cartItems = [
-  {
-    id: '1',
-    name: 'Iphone',
-    img: 'https://m.media-amazon.com/images/I/71d7rfSl0wL._AC_UY327_FMwebp_QL65_.jpg',
-    price: 65500,
-    stock: 10,
-    quantity: 2,
-  },
-  {
-    id: '1',
-    name: 'Iphone',
-    img: 'https://m.media-amazon.com/images/I/71d7rfSl0wL._AC_UY327_FMwebp_QL65_.jpg',
-    price: 65500,
-    stock: 10,
-    quantity: 2,
-  },
-]
-const discount = 500
+import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { CartReducerInitialState } from '../types'
+import {
+  applyDiscount,
+  calculatePayementInfo,
+} from '../redux/reducer/cartReducer'
+import axios from 'axios'
+import { server } from '../redux/store'
 
 const Cart = () => {
+  const dispatch = useDispatch()
+  const { cartItems, discount, subtotal, total, tax, shippingCharges } =
+    useSelector(
+      (state: { cartReducer: CartReducerInitialState }) => state.cartReducer
+    )
+
   const [coupon, setCoupon] = useState<string>('')
   const [isValidCoupon, setIsValidCoupon] = useState<boolean>(false)
 
   const navigate = useNavigate()
 
-  useEffect(() => {}, [coupon])
+  useEffect(() => {
+    const { cancel, token } = axios.CancelToken.source()
+    const timeOut = setTimeout(() => {
+      axios
+        .get(`${server}api/v1/payment/discount?code=${coupon}`, {
+          cancelToken: token,
+        })
+        .then((res) => {
+          dispatch(applyDiscount(res.data.discount))
+          dispatch(calculatePayementInfo())
+          setIsValidCoupon(true)
+        })
+        .catch(() => {
+          dispatch(applyDiscount(0))
+          dispatch(calculatePayementInfo())
+          setIsValidCoupon(false)
+        })
+    }, 100)
+
+    return () => {
+      clearTimeout(timeOut)
+      cancel()
+      setIsValidCoupon(false)
+    }
+  }, [coupon])
+
+  useEffect(() => {
+    dispatch(calculatePayementInfo())
+  }, [cartItems])
 
   return (
     <div className="cart">
@@ -43,11 +65,11 @@ const Cart = () => {
         </div>
       </main>
       <aside>
-        <div>Subtotal: ${1}</div>
-        <div>Tax: ${1}</div>
-        <div>Subtotal: ${1}</div>
+        <div>Subtotal: ₹{subtotal}</div>
+        <div>Tax: ₹{tax}</div>
+        <div>Shipping Charges: ₹{shippingCharges}</div>
         <div>
-          <strong>Total: ${1}</strong>
+          <strong>Total: ₹{total}</strong>
         </div>
 
         <div>
@@ -62,7 +84,7 @@ const Cart = () => {
         {coupon &&
           (isValidCoupon ? (
             <div className="green">
-              ${discount} using the coupon {coupon}
+              ₹{discount} using the coupon {coupon}
             </div>
           ) : (
             <div className="red">Invalid Coupon</div>

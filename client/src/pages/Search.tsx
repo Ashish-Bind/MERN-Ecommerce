@@ -108,9 +108,8 @@ const Search = () => {
           ) : (
             searchResponse?.products.map((i) => (
               <ProductCard
-                cartHandler={addtoCartHandler}
-                id={i._id}
-                img={i.photo}
+                productId={i._id}
+                photo={i.photo}
                 price={i.price}
                 name={i.name}
                 stock={i.stock}

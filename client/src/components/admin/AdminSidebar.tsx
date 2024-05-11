@@ -1,41 +1,41 @@
-import { useEffect, useState } from "react";
-import { AiFillFileText } from "react-icons/ai";
+import { useEffect, useState } from 'react'
+import { AiFillFileText } from 'react-icons/ai'
 import {
   FaChartBar,
   FaChartLine,
   FaChartPie,
   FaGamepad,
   FaStopwatch,
-} from "react-icons/fa";
-import { HiMenuAlt4 } from "react-icons/hi";
-import { IoIosPeople } from "react-icons/io";
+} from 'react-icons/fa'
+import { HiMenuAlt4 } from 'react-icons/hi'
+import { IoIosPeople } from 'react-icons/io'
 import {
   RiCoupon3Fill,
   RiDashboardFill,
   RiShoppingBag3Fill,
-} from "react-icons/ri";
-import { Link, Location, useLocation } from "react-router-dom";
-import { IconType } from "react-icons";
+} from 'react-icons/ri'
+import { Link, Location, useLocation } from 'react-router-dom'
+import { IconType } from 'react-icons'
 
 const AdminSidebar = () => {
-  const location = useLocation();
+  const location = useLocation()
 
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false)
   const [phoneActive, setPhoneActive] = useState<boolean>(
     window.innerWidth < 1100
-  );
+  )
 
   const resizeHandler = () => {
-    setPhoneActive(window.innerWidth < 1100);
-  };
+    setPhoneActive(window.innerWidth < 1100)
+  }
 
   useEffect(() => {
-    window.addEventListener("resize", resizeHandler);
+    window.addEventListener('resize', resizeHandler)
 
     return () => {
-      window.removeEventListener("resize", resizeHandler);
-    };
-  }, []);
+      window.removeEventListener('resize', resizeHandler)
+    }
+  }, [])
 
   return (
     <>
@@ -49,17 +49,16 @@ const AdminSidebar = () => {
         style={
           phoneActive
             ? {
-                width: "20rem",
-                height: "100vh",
-                position: "fixed",
+                width: '20rem',
+                height: '100vh',
+                position: 'fixed',
                 top: 0,
-                left: showModal ? "0" : "-20rem",
-                transition: "all 0.5s",
+                left: showModal ? '0' : '-20rem',
+                transition: 'all 0.5s',
               }
             : {}
         }
       >
-        <h2>Logo.</h2>
         <DivOne location={location} />
         <DivTwo location={location} />
         <DivThree location={location} />
@@ -71,8 +70,8 @@ const AdminSidebar = () => {
         )}
       </aside>
     </>
-  );
-};
+  )
+}
 
 const DivOne = ({ location }: { location: Location }) => (
   <div>
@@ -104,7 +103,7 @@ const DivOne = ({ location }: { location: Location }) => (
       />
     </ul>
   </div>
-);
+)
 
 const DivTwo = ({ location }: { location: Location }) => (
   <div>
@@ -130,7 +129,7 @@ const DivTwo = ({ location }: { location: Location }) => (
       />
     </ul>
   </div>
-);
+)
 
 const DivThree = ({ location }: { location: Location }) => (
   <div>
@@ -156,32 +155,32 @@ const DivThree = ({ location }: { location: Location }) => (
       />
     </ul>
   </div>
-);
+)
 
 interface LiProps {
-  url: string;
-  text: string;
-  location: Location;
-  Icon: IconType;
+  url: string
+  text: string
+  location: Location
+  Icon: IconType
 }
 const Li = ({ url, text, location, Icon }: LiProps) => (
   <li
     style={{
       backgroundColor: location.pathname.includes(url)
-        ? "rgba(0,115,255,0.1)"
-        : "white",
+        ? 'rgba(0,115,255,0.1)'
+        : 'white',
     }}
   >
     <Link
       to={url}
       style={{
-        color: location.pathname.includes(url) ? "rgb(0,115,255)" : "black",
+        color: location.pathname.includes(url) ? 'rgb(0,115,255)' : 'black',
       }}
     >
       <Icon />
       {text}
     </Link>
   </li>
-);
+)
 
-export default AdminSidebar;
+export default AdminSidebar

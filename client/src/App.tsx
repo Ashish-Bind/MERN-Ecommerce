@@ -10,12 +10,13 @@ import { getUserWithId } from './redux/api/user'
 import { noUserExist, userExist } from './redux/reducer/userReducer'
 import { UserReducerInitialState } from './types'
 import ProtectedRoutes from './components/ProtectedRoutes'
-import NotFound from './pages/NotFound'
 
 const Home = lazy(() => import('./pages/Home'))
 const Search = lazy(() => import('./pages/Search'))
 const Cart = lazy(() => import('./pages/Cart'))
 const Shipping = lazy(() => import('./pages/Shipping'))
+const Checkout = lazy(() => import('./pages/Checkout'))
+const NotFound = lazy(() => import('./pages/NotFound'))
 const Login = lazy(() => import('./pages/Login'))
 const Orders = lazy(() => import('./pages/Orders'))
 const OrderDetails = lazy(() => import('./pages/OrderDetails'))
@@ -79,6 +80,7 @@ const App = () => {
 
           {/* Protected Routes */}
           <Route path="/shipping" element={<Shipping />} />
+          <Route path="/checkout/pay" element={<Checkout />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/order/:id" element={<OrderDetails />} />
 

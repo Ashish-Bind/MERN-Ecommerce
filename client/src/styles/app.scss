@@ -93,7 +93,7 @@ $color3: rgb(0, 104, 136);
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px;
-    widht: 100px;
+    width: 100px;
     position: absolute;
     left: calc(100% - 100px);
     top: 8%;
@@ -284,6 +284,36 @@ $color3: rgb(0, 104, 136);
     background-color: #dddddd;
     border-radius: 5px;
     animation: skeleton-loading 1.5s infinite;
+  }
+}
+
+.not-found {
+  height: 80vh;
+  @include flex(column);
+  > svg {
+    font-size: 5rem;
+  }
+}
+
+.checkout-container {
+  max-width: 500px;
+  width: 100%;
+  margin: 1rem auto;
+  font-family: inherit;
+  > form {
+    @include flex(column, flex-start, stretch, 2rem);
+    font-family: inherit;
+
+    > button {
+      padding: 0.5rem 1rem;
+      background-color: $color3;
+      color: white;
+      width: 100%;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 5px;
+      font-family: inherit;
+    }
   }
 }
 

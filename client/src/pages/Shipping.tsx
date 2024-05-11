@@ -1,18 +1,26 @@
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { BiArrowBack } from 'react-icons/bi'
-import { FaBackward } from 'react-icons/fa'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { CartReducerInitialState } from '../types'
+import axios from 'axios'
+import toast from 'react-hot-toast'
+import { saveShippingInfo } from '../redux/reducer/cartReducer'
 
 const Shipping = () => {
+  const { cartItems, total } = useSelector(
+    (state: { cartReducer: CartReducerInitialState }) => state.cartReducer
+  )
   const [shippingDetails, setShippingDetails] = useState({
     address: '',
     city: '',
     state: '',
     country: '',
-    pincode: undefined,
+    pincode: '',
   })
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const changeHandler = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -20,10 +28,31 @@ const Shipping = () => {
     setShippingDetails((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log(shippingDetails)
+
+    dispatch(saveShippingInfo(shippingDetails))
+
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/payment/order`,
+        { amount: total },
+        { headers: { 'Content-type': 'application/json' } }
+      )
+
+      console.log(data)
+
+      navigate('/checkout/pay', { state: data.clientSecret })
+    } catch (e) {
+      toast.error('Something went wrong')
+    }
   }
+
+  useEffect(() => {
+    if (cartItems.length < 1) {
+      return navigate('/')
+    }
+  }, [cartItems])
 
   return (
     <div className="shipping">
