@@ -55,6 +55,19 @@ export type Order = {
 
 export type MyOrder = Omit<Order, 'user'> & { user: string }
 
+export type Bar = {
+  product: number[]
+  user: number[]
+  order: number[]
+}
+
+export type Line = {
+  product: number[]
+  user: number[]
+  discount: number[]
+  revenue: number[]
+}
+
 /* API Types */
 
 export type ErrorResponse = {
@@ -68,6 +81,16 @@ export type MessageResponse = {
 }
 
 export type UserResponse = {
+  success: boolean
+  user: User
+}
+
+export type AllUserResponse = {
+  success: boolean
+  users: User[]
+}
+
+export type SingleUserResponse = {
   success: boolean
   user: User
 }
@@ -151,7 +174,88 @@ export type UpdateOrderRequest = {
   adminId: string
 }
 
+export type DeleteUserRequest = {
+  userId: string
+  adminId: string
+}
+
 export type DeleteOrderRequest = UpdateOrderRequest
+
+export type DashboardResponse = {
+  success: boolean
+  stats: {
+    percentages: {
+      user: number
+      product: number
+      order: number
+      revenue: number
+    }
+    counts: {
+      user: number
+      product: number
+      order: number
+      revenue: number
+    }
+    charts: {
+      order: number[]
+      revenue: number[]
+    }
+    inventory: Record<string, number>[]
+    ratio: {
+      male: number
+      female: number
+    }
+    latest: [
+      {
+        _id: string
+        discount: number
+        total: number
+        status: string
+        quantity: number
+      }
+    ]
+  }
+}
+
+export type PieChartResponse = {
+  success: true
+  pie: {
+    processingOrders: number
+    shippedOrders: number
+    deliveredOrders: number
+    inventory: Record<string, number>[]
+    stock: {
+      inStock: number
+      outOfStock: number
+    }
+    revenueDistribution: {
+      netMargin: number
+      discount: number
+      productionCost: number
+      burnt: number
+      marketingCost: number
+    }
+    role: {
+      admin: number
+      user: number
+    }
+    ageGroup: {
+      teen: number
+      adult: number
+      old: number
+    }
+  }
+}
+
+export type LineChartResponse = {
+  success: boolean
+  line: Line
+}
+
+export type BarChartResponse = {
+  success: boolean
+  bar: Bar
+}
 
 /* Reducer Types */
 
@@ -169,9 +273,4 @@ export interface CartReducerInitialState {
   total: number
   tax: number
   shippingInfo: ShippingInfo
-}
-
-export interface RootState {
-  userReducer: UserReducerInitialState
-  cartReducer: CartReducerInitialState
 }

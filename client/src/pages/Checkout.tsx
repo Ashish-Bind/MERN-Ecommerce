@@ -5,11 +5,12 @@ import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
 import React from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
-import { NewOrderRequest, RootState } from '../types'
+import { NewOrderRequest } from '../types'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNewOrderMutation } from '../redux/api/order'
 import { resetCart } from '../redux/reducer/cartReducer'
 import { responseToast } from '../utils/feature'
+import { RootState } from '../redux/store'
 
 const stripePromise = loadStripe(
   'pk_test_51PDl0RSEvYOc9i41lULHE3zBh4dAD48qwy3JsOFKCtnptROjdbsWL87KgAiBI8FrdEZg1cdo2VvCvB6lPEY8eZOS00vZpHn3GX'

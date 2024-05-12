@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { IconType } from 'react-icons'
 import { AiFillFileText } from 'react-icons/ai'
 import {
   FaChartBar,
@@ -15,7 +16,6 @@ import {
   RiShoppingBag3Fill,
 } from 'react-icons/ri'
 import { Link, Location, useLocation } from 'react-router-dom'
-import { IconType } from 'react-icons'
 
 const AdminSidebar = () => {
   const location = useLocation()
@@ -40,7 +40,7 @@ const AdminSidebar = () => {
   return (
     <>
       {phoneActive && (
-        <button id="hamburger" onClick={() => setShowModal(true)}>
+        <button id="hamburger" onClick={() => setShowModal(true)} title="btn">
           <HiMenuAlt4 />
         </button>
       )}

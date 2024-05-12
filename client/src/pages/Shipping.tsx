@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BiArrowBack } from 'react-icons/bi'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -23,7 +23,7 @@ const Shipping = () => {
   const dispatch = useDispatch()
 
   const changeHandler = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setShippingDetails((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
