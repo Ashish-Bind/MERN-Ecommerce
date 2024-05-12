@@ -1,31 +1,16 @@
 import { FaTrash } from 'react-icons/fa'
+import { useSelector } from 'react-redux'
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import AdminSidebar from '../../../components/admin/AdminSidebar'
-import { OrderItem } from '../../../models/types'
-import { server } from '../../../redux/store'
-import { Order, UserReducerInitialState } from '../../../types'
-import { useDispatch, useSelector } from 'react-redux'
+import { Skeleton } from '../../../components/Loader'
 import {
   useDeleteOrderMutation,
   useSingleOrderQuery,
   useUpdateOrderMutation,
 } from '../../../redux/api/order'
-import { useState } from 'react'
+import { server } from '../../../redux/store'
+import { Order, OrderItem, UserReducerInitialState } from '../../../types'
 import { responseToast } from '../../../utils/feature'
-import { Skeleton } from '../../../components/Loader'
-
-const img =
-  'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c2hvZXN8ZW58MHx8MHx8&w=1000&q=804'
-
-const orderItems: OrderItem[] = [
-  {
-    name: 'Puma Shoes',
-    photo: img,
-    id: 'asdsaasdas',
-    quantity: 4,
-    price: 2000,
-  },
-]
 
 const defaultData: Order = {
   shippingInfo: {

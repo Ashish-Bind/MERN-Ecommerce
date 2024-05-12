@@ -36,8 +36,6 @@ const Search = () => {
     price: priceFilter,
   })
 
-  const addtoCartHandler = () => {}
-
   if (isError) toast.error((error as ErrorResponse).data.message)
   if (isSearchError) toast.error((searchError as ErrorResponse).data.message)
 

@@ -1,9 +1,8 @@
-import React from 'react'
+import toast from 'react-hot-toast'
 import { FaTrash } from 'react-icons/fa'
 import { useDispatch } from 'react-redux'
 import { addToCart, removeFromCart } from '../redux/reducer/cartReducer'
 import { server } from '../redux/store'
-import toast from 'react-hot-toast'
 
 interface CartItemProps {
   productId: string
