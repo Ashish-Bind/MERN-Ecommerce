@@ -18,8 +18,6 @@ const Barcharts = () => {
   const last6Months = getLastMonths({ length: 6 })
   const last12Months = getLastMonths({ length: 12 })
 
-  console.log(last12Months, last6Months)
-
   if (isError) return toast.error('Something went wrong')
 
   const orders = barStats?.bar.order!

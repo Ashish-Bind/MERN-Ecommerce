@@ -12,9 +12,7 @@ import { resetCart } from '../redux/reducer/cartReducer'
 import { responseToast } from '../utils/feature'
 import { RootState } from '../redux/store'
 
-const stripePromise = loadStripe(
-  'pk_test_51PDl0RSEvYOc9i41lULHE3zBh4dAD48qwy3JsOFKCtnptROjdbsWL87KgAiBI8FrdEZg1cdo2VvCvB6lPEY8eZOS00vZpHn3GX'
-)
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
 
 const CheckoutForm = () => {
   const stripe = useStripe()

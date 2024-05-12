@@ -9,6 +9,7 @@ import Table from '../../components/admin/DashboardTable'
 import { Skeleton } from '../../components/Loader'
 import { useDashboardStatsQuery } from '../../redux/api/stats'
 import { RootState } from '../../redux/store'
+import { getLastMonths } from '../../utils/feature'
 
 const Dashboard = () => {
   const { user } = useSelector((state: RootState) => state.userReducer)
@@ -17,6 +18,7 @@ const Dashboard = () => {
     isError,
     isLoading,
   } = useDashboardStatsQuery(user?._id as string)
+  const last6Months = getLastMonths({ length: 6 })
 
   if (isError) return <Navigate to={'/'} />
 
@@ -67,6 +69,7 @@ const Dashboard = () => {
                   title_2="Transaction"
                   bgColor_1="rgb(0, 115, 255)"
                   bgColor_2="rgba(53, 162, 235, 0.8)"
+                  labels={last6Months}
                 />
               </div>
 

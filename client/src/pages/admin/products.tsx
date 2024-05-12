@@ -9,6 +9,7 @@ import toast from 'react-hot-toast'
 import { ErrorResponse, UserReducerInitialState } from '../../types'
 import { useSelector } from 'react-redux'
 import { Skeleton } from '../../components/Loader'
+import { server } from '../../redux/store'
 
 interface DataType {
   photo: ReactElement
@@ -57,9 +58,7 @@ const Products = () => {
     if (data)
       setRows(
         data.products.map((i) => ({
-          photo: (
-            <img src={`http://localhost:3000/${i.photo}`} title={i.name} />
-          ),
+          photo: <img src={`${server}${i.photo}`} title={i.name} />,
           name: i.name,
           price: i.price,
           stock: i.stock,
