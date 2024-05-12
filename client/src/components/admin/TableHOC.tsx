@@ -1,14 +1,11 @@
-import {
-  AiOutlineSortAscending,
-  AiOutlineSortDescending,
-} from "react-icons/ai";
+import { AiOutlineSortAscending, AiOutlineSortDescending } from 'react-icons/ai'
 import {
   Column,
   usePagination,
   useSortBy,
   useTable,
   TableOptions,
-} from "react-table";
+} from 'react-table'
 
 function TableHOC<T extends Object>(
   columns: Column<T>[],
@@ -24,7 +21,7 @@ function TableHOC<T extends Object>(
       initialState: {
         pageSize: 6,
       },
-    };
+    }
 
     const {
       getTableProps,
@@ -38,7 +35,7 @@ function TableHOC<T extends Object>(
       previousPage,
       canNextPage,
       canPreviousPage,
-    } = useTable(options, useSortBy, usePagination);
+    } = useTable(options, useSortBy, usePagination)
 
     return (
       <div className={containerClassname}>
@@ -50,10 +47,10 @@ function TableHOC<T extends Object>(
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
                   <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                    {column.render("Header")}
+                    {column.render('Header')}
                     {column.isSorted && (
                       <span>
-                        {" "}
+                        {' '}
                         {column.isSortedDesc ? (
                           <AiOutlineSortDescending />
                         ) : (
@@ -68,15 +65,15 @@ function TableHOC<T extends Object>(
           </thead>
           <tbody {...getTableBodyProps()}>
             {page.map((row) => {
-              prepareRow(row);
+              prepareRow(row)
 
               return (
                 <tr {...row.getRowProps()}>
                   {row.cells.map((cell) => (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                   ))}
                 </tr>
-              );
+              )
             })}
           </tbody>
         </table>
@@ -93,8 +90,8 @@ function TableHOC<T extends Object>(
           </div>
         )}
       </div>
-    );
-  };
+    )
+  }
 }
 
-export default TableHOC;
+export default TableHOC
