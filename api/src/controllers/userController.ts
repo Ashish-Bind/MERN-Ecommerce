@@ -32,7 +32,7 @@ export const newUser = trycatch(
 
 export const getAllUsers = trycatch(
   async (req: Request, res: Response, next: NextFunction) => {
-    const users = await User.find({}).select('-_id -email')
+    const users = await User.find({})
 
     res.status(201).json({ success: true, users })
   }
